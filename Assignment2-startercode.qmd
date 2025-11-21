@@ -262,7 +262,7 @@ The age distribution is also skewed, with relatively few respondents in the youn
 
 The distribution of education levels is highly concentrated in the two higher categories. Nearly 56% of respondents reported completing some college, and about 44% held a college degree, while only a very small fraction had a high school education or less.
 
-The raw (unadjusted) proportions reporting vote intention were approximately r round(mean(survey_data$vote_liberal)*100,1)% for the Liberal Party, r round(mean(survey_data$vote_conservative)*100,1)% for the Conservative Party, and r round(mean(survey_data$vote_ndp)*100,1)% for the NDP. These figures suggest a competitive partisan landscape within the sample, with no single party attracting a majority of stated vote intentions.
+The raw (unadjusted) proportions reporting vote intention were approximately r round(mean(survey_data$vote_liberal)*100,1)% for the Liberal Party, r round(mean(survey_data$vote_conservative)*100,1)% for the Conservative Party, and r round(mean(survey_data\$vote_ndp)*100,1)% for the NDP. These figures suggest a competitive partisan landscape within the sample, with no single party attracting a majority of stated vote intentions.
 
 ```{r, echo = FALSE}
 
@@ -314,9 +314,9 @@ ggplot(census_data, aes(x = age)) +
 
 <!-- Include a clear description of the plot(s). I would recommend one paragraph for each plot. -->
 
-Figure 1 displays the distribution of CES respondents across age categories. The figure shows that the majority of the CES respondents were in their late-30s to late-60s compared to young adults and seniors, highlighting the vitality of adjusting estimates based on population data. 
+Figure 1 displays the distribution of CES respondents across age categories. The figure shows that the majority of the CES respondents were in their late-30s to late-60s compared to young adults and seniors, highlighting the vitality of adjusting estimates based on population data.
 
-Figure 2 illustrates the proportion of each age category indicating a desire to vote Liberal. Support is lowest among the youngest respondents, increases through early and middle adulthood, and remains relatively stable across the older age groups. 
+Figure 2 illustrates the proportion of each age category indicating a desire to vote Liberal. Support is lowest among the youngest respondents, increases through early and middle adulthood, and remains relatively stable across the older age groups.
 
 Figures 3 and 4 show how preference for the Conservative and NDP parties differ amongst age categories; Conservatives are most supported by older age groups, whereas the NDP party is most supported by young respondents. These illustrative visualizations encourage the addition of age and province in the regression model and emphasize the demographic gradients that post-stratification seeks to address.
 
@@ -475,7 +475,7 @@ Table 1 presents the post-stratified national estimates of the popular vote for 
 
 Before post-stratification, the logistic regression models were used to estimate voting intention based on age, province, gender, and education. Across all three models, several predictors showed statistically significant coefficients. In the Liberal model, many age categories exhibited positive and significant associations, while provincial differences also appeared substantial. For the Conservative model, gender had a clear positive association with Conservative support, and several provinces showed strong positive or negative coefficients. In the NDP model, coefficients for older age categories were consistently negative and frequently significant, with multiple provincial indicators also showing strong effects. Education, in contrast, showed no statistically significant associations in any of the models. These results serve as the basis for the predicted probabilities used in the post-stratification step.
 
-Based on the post-stratified results, the predicted popular vote shares are approximately r results_table$PredictedShare[results_table$Party == "liberal"]% for the Liberal Party, r results_table$PredictedShare[results_table$Party == "conservative"]% for the Conservative Party, and r results_table$PredictedShare[results_table$Party == "ndp"]% for the NDP. These estimates indicate that the Liberal Party holds the largest share of predicted support, while the Conservative Party and NDP follow with lower but broadly comparable levels of support. Although the Liberal Party appears to lead, the overall distribution does not reflect a dominant advantage for any one party.
+Based on the post-stratified results, the predicted popular vote shares are approximately `r results_table$PredictedShare[results_table$Party == "Liberal"]`% for the Liberal Party, `r results_table$PredictedShare[results_table$Party == "Conservative"]`% for the Conservative Party, and `r results_table$PredictedShare[results_table$Party == "NDP"]`% for the NDP. These estimates indicate that the Liberal Party holds the largest share of predicted support, while the Conservative Party and NDP follow with lower but broadly comparable levels of support. Although the Liberal Party appears to lead, the overall distribution does not reflect a dominant advantage for any one party.
 
 Based on the post-stratified estimates, the predicted popular vote shares are approximately `r results_table$PredictedShare[results_table$Party == "Liberal"]`% for the Liberal Party, `r results_table$PredictedShare[results_table$Party == "Conservative"]`% for the Conservative Party, and `r results_table$PredictedShare[results_table$Party == "NDP"]`% for the NDP. These results suggest that the race is competitive, with no single party dominating support nationally.
 
