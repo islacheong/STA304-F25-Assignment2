@@ -241,6 +241,11 @@ prov_summary <- survey_data %>%
 
 print(prov_summary)
 
+edu_summary <- survey_data %>%
+  count(edu) %>%
+  mutate(percent = n / sum(n) * 100)
+
+print(edu_summary)
 
 
 mean(survey_data$vote_liberal, na.rm = TRUE) #liberal vote proportion
@@ -251,7 +256,13 @@ mean(survey_data$vote_ndp, na.rm = TRUE) #ndp vote proportion
 
 <!--Include a description of the numerical summaries. Remember you can use `r` to use inline R code.-->
 
-Numerical summaries help illustrate the composition of the CES sample prior to post-stratification. For example, `r nrow(survey_data)` participants remained after the cleaning procedure. The age distribution is uneven, with the largest counts in middle-aged groups and fewer respondents at the youngest (18–19) and oldest (85+) ends of the spectrum. The raw (unadjusted) proportions reporting vote intention were approximately `r round(mean(survey_data$vote_liberal)*100,1)`% for the Liberal Party, `r round(mean(survey_data$vote_conservative)*100,1)`% for the Conservative Party, and `r round(mean(survey_data$vote_ndp)*100,1)`% for the NDP, indicating a moderately competitive partisan landscape within the sample. <!-- want to edit the above paragraph later -->
+Numerical summaries help illustrate the composition of the CES sample prior to post-stratification. After the cleaning procedure, r nrow(survey_data) respondents remained. The gender distribution is moderately imbalanced, with women making up about 55% of the sample and men about 45%. Provincial representation is uneven: Ontario (36%) and Quebec (30%) constitute the largest shares of respondents, while provinces such as Alberta (12%) and British Columbia (11%) are represented to a lesser extent, and the Atlantic provinces and the North collectively account for only small fractions of the sample.
+
+The age distribution is also skewed, with relatively few respondents in the youngest (18–19) and oldest (85+) categories. Participation increases sharply among individuals in their 20s and early 30s, remains substantial through midlife, and reaches its highest levels among those aged 60–69 before declining again among the oldest respondents.
+
+The distribution of education levels is highly concentrated in the two higher categories. Nearly 56% of respondents reported completing some college, and about 44% held a college degree, while only a very small fraction had a high school education or less.
+
+The raw (unadjusted) proportions reporting vote intention were approximately r round(mean(survey_data$vote_liberal)*100,1)% for the Liberal Party, r round(mean(survey_data$vote_conservative)*100,1)% for the Conservative Party, and r round(mean(survey_data$vote_ndp)*100,1)% for the NDP. These figures suggest a competitive partisan landscape within the sample, with no single party attracting a majority of stated vote intentions.
 
 ```{r, echo = FALSE}
 
@@ -290,14 +301,26 @@ labs(y = "Proportion Voting NDP", x = "Age Group", fill = "Vote NDP") +
 theme_minimal() +
 theme(axis.text.x=element_text(size=8, angle=30, hjust=1))
 
-
-
+# Figure 5: Age Distribution in Census Population
+ggplot(census_data, aes(x = age)) +
+  geom_bar(fill = "lightgreen", color = "black") +
+  labs(title = "Age Distribution in Census Population",
+       x = "Age Group",
+       y = "Count") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(size=8, angle=30, hjust=1))
 
 ```
 
 <!-- Include a clear description of the plot(s). I would recommend one paragraph for each plot. -->
 
-Figure 1 displays the distribution of CES respondents across age categories. The figure shows that the majority of the CES respondents were in their late-30s to late-60s compared to young adults and seniors, highlighting the vitality of adjusting estimates based on population data. Figure 2 illustrates the proportion of each age category indicating a desire to vote Liberal. Support is lowest among the youngest respondents, increases through early and middle adulthood, and remains relatively stable across the older age groups. Figures 3 and 4 show how preference for the Conservative and NDP parties differ amongst age categories; Conservatives are most supported by older age groups, whereas the NDP party is most supported by young respondents. These illustrative visualizations encourage the addition of age and province in the regression model and emphasize the demographic gradients that post-stratification seeks to address.
+Figure 1 displays the distribution of CES respondents across age categories. The figure shows that the majority of the CES respondents were in their late-30s to late-60s compared to young adults and seniors, highlighting the vitality of adjusting estimates based on population data. 
+
+Figure 2 illustrates the proportion of each age category indicating a desire to vote Liberal. Support is lowest among the youngest respondents, increases through early and middle adulthood, and remains relatively stable across the older age groups. 
+
+Figures 3 and 4 show how preference for the Conservative and NDP parties differ amongst age categories; Conservatives are most supported by older age groups, whereas the NDP party is most supported by young respondents. These illustrative visualizations encourage the addition of age and province in the regression model and emphasize the demographic gradients that post-stratification seeks to address.
+
+Figure 5 presents the age distribution in the Census population. Compared with the survey sample, the population shows a more even spread across most work-aged categories and substantially larger counts in both the youngest and oldest groups. These differences between the sample and population distributions underscore why post-stratification is necessary: estimates based solely on the survey would overrepresent certain age ranges and misrepresent the national electorate.
 
 All analysis, such as data cleaning, numerical summaries, and visualization, was conducted utilizing the R programming language (version 4.5.1) along with the tidyverse and ggplot2 packages for data manipulation and plotting.
 
@@ -319,7 +342,7 @@ To address our research question—estimating the overall popular vote in the ne
 
 Voting intention is a binary outcome (support for a given party vs. not), making logistic regression an appropriate modeling choice because it models probabilities bounded between 0 and 1 and is widely used for categorical dependent variables. Logistic regression also allows us to quantify how demographic factors relate to voting behaviour while enabling prediction for population subgroups.
 
-For the Liberal Party model, we specified: $$logit(P(Y_i=1))=\beta_0+\beta_1(age_i)+\beta_2(prov_i)$$, where $Y_i$ indicates whether respondent $i$ intends to vote Liberal (1 = yes, 0 = no), $\beta_0$ is the intercept, and $\beta_1$ and $\beta_2$ represent the effects of age and province, respectively. Parallel logistic regression models were also fit for the Conservative Party and NDP.
+For the Liberal Party model, we specified: $$logit(P(Y_i=1))=\beta_0+\beta_1(age_i)+\beta_2(prov_i)+\beta_3(gender_i)+\beta_4(edu_i),$$where $Y_i$ indicates whether respondent $i$ intends to vote Liberal (1 = yes, 0 = no), $\beta_0$ is the intercept, and $\beta_1$, $\beta_2$, $\beta_3$, and $\beta_4$ represent the effects of age, province, gender, and education respectively. Parallel logistic regression models were also fit for the Conservative Party and NDP.
 
 This model assumes: (1) the relationship between predictors and the log-odds of voting for a party is linear, (2) observations are independent, and (3) all relevant predictors are measured without systematic error. The parameters of interest are the estimated coefficients and the predicted probabilities from each model, which later enter the post-stratification step.
 
@@ -355,7 +378,7 @@ ndp_model <- glm(vote_ndp ~ age + prov + gender + edu, data = survey_data, famil
 
 Post-stratification is a statistical technique that adjusts model-based predictions from a survey to the demographic composition of the full population. In simple terms, it addresses the question: “If each demographic group in Canada votes similarly to our survey and according to the census proportions, what would the election outcome appear like?”
 
-Cells were defined by all combinations of age group × province x age x education, because both variables are strongly associated with political preference and are available in both the survey and census datasets.
+Cells were defined by all combinations of age × province × gender × education, since all four predictors were included in the logistic models (they are expected to be associated with political preference) and were consistently measured across both the survey and census datasets.
 
 For each demographic cell $i$:
 
@@ -363,7 +386,7 @@ For each demographic cell $i$:
 2.  Multiply that probability by the census count of individuals in the cell ($N_i$).
 3.  Aggregate predictions across all cells to obtain a national estimate.
 
-The post-stratified estimate for the Liberal party is: $$\hat{y}^{PS}=\frac{\sum_iP(Y=1|age_i,prov_i)\cdot N_i}{\sum_iN_i}$$Post-stratification is appropriate here because the survey is not perfectly representative of the Canadian electorate; without adjustment, predictions would be biased toward the survey’s demographic composition. By integrating census counts, we generate estimates that better approximate real-world voting intentions.
+The post-stratified estimate for the Liberal party is: $$\hat{y}^{PS}=\frac{\sum_iP(Y=1|age_i,prov_i,gender_i,edu_i)\cdot N_i}{\sum_iN_i}$$Post-stratification is appropriate here because the survey is not perfectly representative of the Canadian electorate; without adjustment, predictions would be biased toward the survey’s demographic composition. By integrating census counts, we generate estimates that better approximate real-world voting intentions.
 
 # 4 Results
 
@@ -371,57 +394,48 @@ The post-stratified estimate for the Liberal party is: $$\hat{y}^{PS}=\frac{\sum
 
 #model <- lm(vote_liberal ~ age + prov, data=survey_data)
 # ensure factor levels match EXACTLY
-survey_data$age_num <- as.numeric(survey_data$age)
-survey_data$prov_num <- as.numeric(survey_data$prov)
-survey_data$gender_num <- as.numeric(survey_data$gender)
-survey_data$edu_num <- as.numeric(survey_data$edu)
-
-census_data$age_num <- as.numeric(census_data$age)
-census_data$prov_num <- as.numeric(census_data$prov)
-census_data$gender_num <- as.numeric(census_data$gender)
-census_data$edu_num <- as.numeric(census_data$edu)
+str(survey_data[, c("age", "prov", "gender", "edu")])
 
 # Creating the Model
-liberal_model <- glm(vote_liberal ~ age_num + prov_num + gender_num + edu_num, data = survey_data, family = binomial)
+liberal_model <- glm(
+  vote_liberal ~ age + prov + gender + edu,
+  data = survey_data,
+  family = binomial
+)
 
-conservative_model <- glm(vote_conservative ~ age_num + prov_num + gender_num + edu_num, data = survey_data, family = binomial)
+conservative_model <- glm(
+  vote_conservative ~ age + prov + gender + edu,
+  data = survey_data,
+  family = binomial
+)
 
-ndp_model <- glm(vote_ndp ~ age_num + prov_num + gender_num + edu_num, data = survey_data, family = binomial)
+ndp_model <- glm(
+  vote_ndp ~ age + prov + gender + edu,
+  data = survey_data,
+  family = binomial
+)
 
 # Model Results (to Report in Results section)
-# summary(model)
-# OR
-# broom::tidy(model)
+summary(liberal_model)
+summary(conservative_model)
+summary(ndp_model)
+
 ```
 
 ```{r, include=FALSE}
 
-# Here I will perform the post-stratification calculation
-#census_data_counts <- census_data %>% 
-#  group_by(age, prov) %>% 
-#  summarise(n=n())
-
-#census_data_counts$estimate <-
-#  model %>% 
-#  predict(newdata = census_data_counts, type="response")
-
-#census_data_counts %>% 
-#  ungroup(age) %>% 
-#  mutate(liberal_predict_prop = estimate*n) %>%
-#  summarise(liberal_predict = sum(liberal_predict_prop)/sum(n))
-
 # Build Census Cell Counts
 census_data_counts <- census_data %>%
-group_by(age_num, prov_num, gender_num, edu_num) %>%
-summarise(n = n(), .groups = "drop")
+group_by(age, prov, gender, edu) %>%
+  summarise(n = n(), .groups = "drop")
 
 # Add predicted probabilities for each party using the logistic models
 census_data_counts <- census_data_counts %>%
-mutate(
-  p_liberal = predict(liberal_model, newdata = census_data_counts, type = "response"),
-  p_con = predict(conservative_model, newdata = census_data_counts, type = "response"),
-  p_ndp = predict(ndp_model, newdata = census_data_counts, type = "response")
-)
+  mutate(
+    p_liberal = predict(liberal_model, newdata = census_data_counts, type = "response"),
+    p_con = predict(conservative_model, newdata = census_data_counts, type = "response"),
+    p_ndp = predict(ndp_model, newdata = census_data_counts, type = "response")
+  )
 
 # Remove un-estimable cells (clean and proper)
 census_data_counts <- census_data_counts %>% 
@@ -434,7 +448,6 @@ summarise(
   Conservative = sum(p_con * n) / sum(n),
   NDP = sum(p_ndp * n) / sum(n)
 ) 
-
 
 ```
 
@@ -456,22 +469,19 @@ caption = "Table 1. Post-Stratified Estimates of Popular Vote for Major Canadian
 
 ```
 
-|                                      | Liberal Party | Another Party |
-|--------------------------------------|---------------|---------------|
-| Predicted Percentage of Popular Vote | 0.286         | ??            |
-| Another Statistic?                   | ??            | ??            |
-
-: The proportions of outcome variable of interest calculated for the following political parties: Liberal.
-
 <!-- Include an explanation/interpretation of the visualizations. Make sure to comment on the appropriateness of the assumptions/results. -->
 
-Table 1 presents the post-stratified estimates of the predicted national popular vote for the Liberal Party, Conservative Party, and NDP. These estimates combine the logistic regression predictions with census population totals to approximate how each party would fare if every demographic group voted in proportion to our survey results.
+Table 1 presents the post-stratified national estimates of the popular vote for the Liberal Party, Conservative Party, and NDP. These values result from combining logistic regression predictions with census population totals, producing adjusted estimates that reflect the demographic composition of the Canadian electorate rather than the survey sample alone.
+
+Before post-stratification, the logistic regression models were used to estimate voting intention based on age, province, gender, and education. Across all three models, several predictors showed statistically significant coefficients. In the Liberal model, many age categories exhibited positive and significant associations, while provincial differences also appeared substantial. For the Conservative model, gender had a clear positive association with Conservative support, and several provinces showed strong positive or negative coefficients. In the NDP model, coefficients for older age categories were consistently negative and frequently significant, with multiple provincial indicators also showing strong effects. Education, in contrast, showed no statistically significant associations in any of the models. These results serve as the basis for the predicted probabilities used in the post-stratification step.
+
+Based on the post-stratified results, the predicted popular vote shares are approximately r results_table$PredictedShare[results_table$Party == "liberal"]% for the Liberal Party, r results_table$PredictedShare[results_table$Party == "conservative"]% for the Conservative Party, and r results_table$PredictedShare[results_table$Party == "ndp"]% for the NDP. These estimates indicate that the Liberal Party holds the largest share of predicted support, while the Conservative Party and NDP follow with lower but broadly comparable levels of support. Although the Liberal Party appears to lead, the overall distribution does not reflect a dominant advantage for any one party.
 
 Based on the post-stratified estimates, the predicted popular vote shares are approximately `r results_table$PredictedShare[results_table$Party == "Liberal"]`% for the Liberal Party, `r results_table$PredictedShare[results_table$Party == "Conservative"]`% for the Conservative Party, and `r results_table$PredictedShare[results_table$Party == "NDP"]`% for the NDP. These results suggest that the race is competitive, with no single party dominating support nationally.
 
-The pattern of predicted vote shares also aligns with expectations from historical Canadian federal elections, where the Liberal and Conservative parties typically receive the highest support, followed by the NDP. Therefore, the results appear reasonable given known voting trends and demographic patterns. However, the true uncertainty of these estimates cannot be fully quantified here because confidence intervals and standard errors were not computed; future work could incorporate bootstrapping or Bayesian post-stratification to quantify variability.
+However, these estimates do not incorporate measures of uncertainty, such as confidence intervals or standard errors. As a result, the true variability around these predictions remains unknown. Future work could account for sampling and model-based uncertainty by implementing resampling techniques (e.g., bootstrapping) or using Bayesian hierarchical post-stratification to quantify the range of plausible outcomes.
 
-Overall, the results indicate that demographic composition plays an important role in estimating election outcomes, reinforcing the value of post-stratification when survey samples are not fully representative of the voting population.
+Overall, the results underscore the importance of demographic adjustment when analyzing survey-based election forecasts. By incorporating census population counts, post-stratification helps ensure that predicted vote shares better reflect the structure of the Canadian electorate, mitigating biases introduced by uneven sample composition.
 
 <!-- edit the above text -->
 
@@ -495,13 +505,13 @@ This report aimed to predict the national popular vote in the upcoming Canadian 
 
 The post-stratified results indicated that the predicted national popular vote shares are approximately `r results_table$PredictedShare[results_table$Party == "Liberal"]`% for the Liberal Party, `r results_table$PredictedShare[results_table$Party == "Conservative"]`% for the Conservative Party, and `r results_table$PredictedShare[results_table$Party == "NDP"]`% for the NDP. These findings suggest a competitive electoral landscape in which no party is projected to win a dominant share of the vote. In broad terms, the results reflect historical voting trends; the Liberal and Conservative parties remain the two major competitors, with the NDP drawing substantial—but comparatively smaller—support nationally.
 
-The demographic patterns implied by the model are consistent with our hypotheses. The logistic regression coefficients (not shown here) indicated that increasing age was associated with higher support for the Conservative Party and lower support for the NDP, while younger respondents demonstrated a stronger likelihood of supporting the NDP. Provincial variation in predicted vote probability also supports the hypothesis that geography plays an important role in political preference. This reinforces the value of incorporating demographic variables when modeling voting intention and highlights the usefulness of post-stratification for correcting demographic imbalance in survey samples.
+The regression results offer additional insight into how demographic characteristics relate to reported voting intentions. Many age categories displayed significant positive associations with support for the Liberal Party, whereas support for the NDP declined sharply across older age groups, with several coefficients strongly negative and highly significant. The Conservative model highlighted distinct regional patterns, including notable positive coefficients for provinces such as Saskatchewan and Alberta, and a substantial effect for gender, with men more likely to support the Conservatives. Education, on the other hand, showed no significant effect in any of the models. Together, these patterns illustrate meaningful demographic gradients in political preference, reinforcing the importance of adjusting for population composition when interpreting survey-based measures.
 
 Even with these advantages, the analysis has multiple shortcomings. Initially, the models rely solely on age, province, gender and education as predictors, which implies that significant variables like income, urbanicity, and race/ethnicity are overlooked due to either data availability issues or inconsistencies between the survey and the census. Additionally, survey data naturally carry uncertainty, and sampling bias can remain even following post-stratification. Ultimately, we did not calculate standard errors or confidence intervals for the final popular vote estimates, meaning the uncertainty linked to the predictions cannot be formally assessed.
 
-Future research might enhance this analysis by adding more demographic indicators, post-stratifying within finer geographic units (e.g., electoral districts), or gathering larger and more representative survey samples. Bootstrapped or Bayesian post-stratification techniques might offer uncertainty ranges for estimates, improving both interpretability and resilience. Incorporating temporal dynamics, like monthly trends prior to an election, would enable time-series forecasting instead of just a one-time estimate.
+Future extensions of this work could address these limitations by incorporating additional demographic variables, applying multilevel models to account for partial pooling across small population cells, or using bootstrapped and Bayesian post-stratification frameworks to quantify uncertainty. Expanding the geographic granularity of the analysis—from provinces to federal electoral districts—would also allow closer alignment with how federal elections are ultimately decided. Finally, including temporal dynamics, such as month-by-month trends leading up to an election, would shift the analysis from static estimation to genuine forecasting.
 
-In summary, this report shows that integrating logistic regression with post-stratification yields more accurate estimates of voting intention compared to using survey data by itself. Although the results have limitations, the analytical approach uncovers significant demographic trends in political preference and offers a reproducible model for forecasting elections. Ongoing methodological improvements and more comprehensive datasets will enable progressively precise and insightful electoral predictions.
+In sum, the combined use of logistic regression and post-stratification provides a practical way to adjust survey-derived voting intentions to better reflect the demographic structure of the Canadian population. While the resulting estimates are not free from limitations, the approach succeeds in highlighting systematic demographic patterns in political support and offers a transparent and reproducible foundation for improving electoral prediction techniques.
 
 <!-- edit the discussion -->
 
@@ -527,7 +537,7 @@ Since the CES 2021 data is publicly available, describe whether or not this the 
 
 To ensure the reproducibility of our analysis, all data cleaning, modeling, and post-stratification procedures were fully documented within the report and implemented using version-controlled R code. We used consistent statistical methods, clearly defined variable transformations, and provided enough detail for another researcher to replicate the workflow using the same publicly available datasets.
 
-The 2021 Canadian Election Study (CES) and 2021 Census data used in this report are publicly accessible and contain no direct identifiers that could reveal the identity of individual participants. Because the data are already anonymized and released for public research purposes, the work conducted in this report does not require Research Ethics Board approval. Our analysis uses only aggregated demographic information and does not attempt to re-identify or make inferences about specific individuals. As such, participant privacy and confidentiality remain fully protected throughout the project.
+The 2021 Canadian Election Study (CES) and 2021 Census data used in this report are publicly accessible and contain no identifiers that could reveal the identity of individual participants. Because the data are already anonymized and released for public research purposes, the work conducted in this report does not require Research Ethics Board approval. Our analysis uses only aggregated demographic information and does not attempt to re-identify or make inferences about specific individuals. As such, participant privacy and confidentiality remain fully protected throughout the project.
 
 We excluded non-binary respondents from our gender variable so that it would align with the census data, which categorizes gender as only "Man" and "Woman". Since our project relies on population-level census comparisons, we are limited to using the same binary classification. Non-binary respondents represent less than 1% of our sample, and retaining them would force us to misclassify their gender in the analysis. Their exclusion is therefore a methodological decision to maintain consistency with population data and to avoid inappropriate recoding. Excluding them avoids misgendering and ensures that our results are reported in a clear and consistent way with the available population data.
 
