@@ -256,14 +256,13 @@ mean(survey_data$vote_ndp, na.rm = TRUE) #ndp vote proportion
 
 <!--Include a description of the numerical summaries. Remember you can use `r` to use inline R code.-->
 
-Numerical summaries help illustrate the composition of the CES sample prior to post-stratification. After the cleaning procedure, r nrow(survey_data) respondents remained. The gender distribution is moderately imbalanced, with women making up about 55% of the sample and men about 45%. Provincial representation is uneven: Ontario (36%) and Quebec (30%) constitute the largest shares of respondents, while provinces such as Alberta (12%) and British Columbia (11%) are represented to a lesser extent, and the Atlantic provinces and the North collectively account for only small fractions of the sample.
+Numerical summaries help illustrate the composition of the CES sample prior to post-stratification. After the cleaning procedure, `r nrow(survey_data)` respondents remained. The gender distribution is moderately imbalanced, with women making up about 55% of the sample and men about 45%. Provincial representation is uneven: Ontario (36%) and Quebec (30%) constitute the largest shares of respondents, while provinces such as Alberta (12%) and British Columbia (11%) are represented to a lesser extent, and the Atlantic provinces and the North collectively account for only small fractions of the sample.
 
 The age distribution is also skewed, with relatively few respondents in the youngest (18–19) and oldest (85+) categories. Participation increases sharply among individuals in their 20s and early 30s, remains substantial through midlife, and reaches its highest levels among those aged 60–69 before declining again among the oldest respondents.
 
 The distribution of education levels is highly concentrated in the two higher categories. Nearly 56% of respondents reported completing some college, and about 44% held a college degree, while only a very small fraction had a high school education or less.
 
-The raw (unadjusted) proportions reporting vote intention were approximately r round(mean(survey_data$vote_liberal)*100,1)% for the Liberal Party, r round(mean(survey_data$vote_conservative)*100,1)% for the Conservative Party, and r round(mean(survey_data\$vote_ndp)*100,1)% for the NDP. These figures suggest a competitive partisan landscape within the sample, with no single party attracting a majority of stated vote intentions.
-
+The raw (unadjusted) proportions reporting vote intention were approximately `r round(mean(survey_data$vote_liberal) * 100, 1)`% for the Liberal Party, `r round(mean(survey_data$vote_conservative) * 100, 1)`% for the Conservative party, and `r round(mean(survey_data$vote_ndp) * 100, 1)`% for the NDP. These figures suggest a competitive partisan landscape within the sample, with no single party attracting a majority of stated vote intentions.
 
 ```{r, echo = FALSE}
 
