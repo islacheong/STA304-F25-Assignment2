@@ -254,7 +254,8 @@ ggplot(survey_data, aes(x = age)) +
 ggplot(survey_data, aes(x = age, fill = factor(vote_liberal))) +
   geom_bar(position = "fill") +
   scale_fill_discrete(labels = c('Not voted Liberal', 'Voted Liberal')) +
-  labs(y = "Proportion Voting Liberal", x = "Age Group", fill = "Vote Liberal",
+  labs(title = "Proportion Voting Liberal by Age Group",
+       y = "Proportion Voting Liberal", x = "Age Group", fill = "Vote Liberal",
        caption = "Figure 2: Proportion of respondents who voted for the Liberal party, by age group") +
   theme_minimal() +
   theme(axis.text.x = element_text(
@@ -267,7 +268,8 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_liberal))) +
 ggplot(survey_data, aes(x = age, fill = factor(vote_conservative))) +
   geom_bar(position = "fill") +
   scale_fill_discrete(labels = c('Not voted Conservative', 'Voted Conservative')) +
-  labs(y = "Proportion Voting Conservative", x = "Age Group", fill = "Vote Conservative",
+  labs(title = "Proportion Voting Conservative by Age Group",
+       y = "Proportion Voting Conservative", x = "Age Group", fill = "Vote Conservative",
        caption = "Figure 3: Proportion of respondents who voted for the Conservative party, by age group") +
   theme_minimal() +
   theme(axis.text.x = element_text(
@@ -280,7 +282,8 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_conservative))) +
 ggplot(survey_data, aes(x = age, fill = factor(vote_ndp))) +
   geom_bar(position = "fill") +
   scale_fill_discrete(labels = c('Not voted NDP', 'Voted NDP')) +
-  labs(y = "Proportion Voting NDP", x = "Age Group", fill = "Vote NDP",
+  labs(title = "Proportion Voting NDP by Age Group",
+       y = "Proportion Voting NDP", x = "Age Group", fill = "Vote NDP",
        caption = "Figure 4: Proportion of respondents who voted for the NDP party, by age group") +
   theme_minimal() +
   theme(axis.text.x = element_text(
