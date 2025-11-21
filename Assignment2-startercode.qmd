@@ -256,7 +256,7 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_liberal))) +
   scale_fill_discrete(labels = c('Not voted Liberal', 'Voted Liberal')) +
   labs(title = "Proportion Voting Liberal by Age Group",
        y = "Proportion Voting Liberal", x = "Age Group", fill = "Vote Liberal",
-       caption = "Figure 2: Proportion of respondents who voted for the Liberal party, by age group") +
+       caption = "Figure 2: Proportion of respondents who voted for the Liberal party") +
   theme_minimal() +
   theme(axis.text.x = element_text(
     size = 8,
@@ -270,7 +270,7 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_conservative))) +
   scale_fill_discrete(labels = c('Not voted Conservative', 'Voted Conservative')) +
   labs(title = "Proportion Voting Conservative by Age Group",
        y = "Proportion Voting Conservative", x = "Age Group", fill = "Vote Conservative",
-       caption = "Figure 3: Proportion of respondents who voted for the Conservative party, by age group") +
+       caption = "Figure 3: Proportion of respondents who voted for the Conservative party") +
   theme_minimal() +
   theme(axis.text.x = element_text(
     size = 8,
@@ -284,7 +284,7 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_ndp))) +
   scale_fill_discrete(labels = c('Not voted NDP', 'Voted NDP')) +
   labs(title = "Proportion Voting NDP by Age Group",
        y = "Proportion Voting NDP", x = "Age Group", fill = "Vote NDP",
-       caption = "Figure 4: Proportion of respondents who voted for the NDP party, by age group") +
+       caption = "Figure 4: Proportion of respondents who voted for the NDP party") +
   theme_minimal() +
   theme(axis.text.x = element_text(
     size = 8,
@@ -296,7 +296,7 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_ndp))) +
 ggplot(census_data, aes(x = age)) +
   geom_bar(fill = "lightgreen", color = "black") +
   labs(title = "Age Distribution in Census Population", x = "Age Group", y = "Count",
-       caption = "Figure 5: Proportion of respondents who voted for the Conservative party, by age group") +
+       caption = "Figure 5: Age distributon of 2021 Census respondents") +
   theme_minimal() +
   theme(axis.text.x = element_text(
     size = 8,
