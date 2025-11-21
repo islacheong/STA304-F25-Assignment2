@@ -264,6 +264,7 @@ The distribution of education levels is highly concentrated in the two higher ca
 
 The raw (unadjusted) proportions reporting vote intention were approximately r round(mean(survey_data$vote_liberal)*100,1)% for the Liberal Party, r round(mean(survey_data$vote_conservative)*100,1)% for the Conservative Party, and r round(mean(survey_data\$vote_ndp)*100,1)% for the NDP. These figures suggest a competitive partisan landscape within the sample, with no single party attracting a majority of stated vote intentions.
 
+
 ```{r, echo = FALSE}
 
 # Use this to create some plots. Should probably describe both the sample and population.
@@ -387,6 +388,8 @@ For each demographic cell $i$:
 3.  Aggregate predictions across all cells to obtain a national estimate.
 
 The post-stratified estimate for the Liberal party is: $$\hat{y}^{PS}=\frac{\sum_iP(Y=1|age_i,prov_i,gender_i,edu_i)\cdot N_i}{\sum_iN_i}$$Post-stratification is appropriate here because the survey is not perfectly representative of the Canadian electorate; without adjustment, predictions would be biased toward the survey’s demographic composition. By integrating census counts, we generate estimates that better approximate real-world voting intentions.
+
+\newpage
 
 # 4 Results
 
