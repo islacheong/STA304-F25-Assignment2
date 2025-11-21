@@ -487,6 +487,6 @@ We excluded non-binary respondents from our gender variable so that it would ali
 
 4.  Albert, N. (2024, February 11). The First-Past-the-Post Way of Voting is Better-than-the-Rest. C2C Journal. https://c2cjournal.ca/2024/02/the-first-past-the-post-way-of-voting-is-better-than-the-rest/
 
-5.  OpenAI (2025, November 20). Proofread election report \[Generative AI chat\]. ChatGPT. https://chatgpt.com/share/691fba51-3404-800f-9fb4-4d5dc4c78182 <!-- add link after -->
+5.  OpenAI (2025, November 20). Proofread election report \[Generative AI chat\]. ChatGPT. https://chatgpt.com/share/691fba51-3404-800f-9fb4-4d5dc4c78182
 
 6.  Kennedy, K., Khanna, K., Simpson, D., Gelman, A. (2020, October 1). Using sex and gender in survey adjustment.
