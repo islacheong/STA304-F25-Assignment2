@@ -250,21 +250,7 @@ ggplot(survey_data, aes(x = age)) +
   theme(axis.text.x=element_text(size=8, angle=30, hjust=1) +
   caption = "Figure 1: Age distributon of CES respondents") +
 
-# Figure 2: Proportion Voting Liberal by Age Group
-ggplot(survey_data, aes(x = age, fill = factor(vote_liberal))) +
-  geom_bar(position = "fill") +
-  scale_fill_discrete(labels = c('Not voted Liberal', 'Voted Liberal')) +
-  labs(y = "Proportion Voting Liberal", x = "Age Group", fill = "Vote Liberal") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(
-    size = 8,
-    angle = 30,
-    hjust = 1
-  ) +
-    caption = "Figure 2: Proportion of respondents who voted for the Liberal party, by age group")
-
-
-# Figure 3: Proportion Voting Conservative by Age Group
+# Figure 2: Proportion Voting Conservative by Age Group
 ggplot(survey_data, aes(x = age, fill = factor(vote_conservative))) +
   geom_bar(position = "fill") +
   scale_fill_discrete(labels = c('Not voted Conservative', 'Voted Conservative')) +
@@ -275,9 +261,9 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_conservative))) +
     angle = 30,
     hjust = 1
   ) +
-    caption = "Figure 3: Proportion of respondents who voted for the Conservative party, by age group")
+    caption = "Figure 2: Proportion of respondents who voted for the Conservative party, by age group")
 
-# Figure 4: Proportion Voting NDP by Age Group
+# Figure 3: Proportion Voting NDP by Age Group
 ggplot(survey_data, aes(x = age, fill = factor(vote_ndp))) +
   geom_bar(position = "fill") +
   scale_fill_discrete(labels = c('Not voted NDP', 'Voted NDP')) +
@@ -288,9 +274,9 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_ndp))) +
     angle = 30,
     hjust = 1
   ) +
-    caption = "Figure 4: Proportion of respondents who voted for the NDP party, by age group")
+    caption = "Figure 3: Proportion of respondents who voted for the NDP party, by age group")
 
-# Figure 5: Age Distribution in Census Population
+# Figure 4: Age Distribution in Census Population
 ggplot(census_data, aes(x = age)) +
   geom_bar(fill = "lightgreen", color = "black") +
   labs(title = "Age Distribution in Census Population", x = "Age Group", y = "Count") +
@@ -300,17 +286,11 @@ ggplot(census_data, aes(x = age)) +
     angle = 30,
     hjust = 1
   ) +
-    caption = "Figure 3: Proportion of respondents who voted for the Conservative party, by age group")
+    caption = "Figure 4: Age Distribution in Census Population")
 
 ```
 
-Figure 1 displays the distribution of CES respondents across age categories. The figure shows that the majority of the CES respondents were in their late-30s to late-60s compared to young adults and seniors, highlighting the vitality of adjusting estimates based on population data.
-
-Figure 2 illustrates the proportion of each age category indicating a desire to vote Liberal. Support is lowest among the youngest respondents, increases through early and middle adulthood, and remains relatively stable across the older age groups.
-
-Figures 3 and 4 show how preference for the Conservative and NDP parties differ amongst age categories; Conservatives are most supported by older age groups, whereas the NDP party is most supported by young respondents. These illustrative visualizations encourage the addition of age and province in the regression model and emphasize the demographic gradients that post-stratification seeks to address.
-
-Figure 5 presents the age distribution in the Census population. Compared with the survey sample, the population shows a more even spread across most work-aged categories and substantially larger counts in both the youngest and oldest groups. These differences between the sample and population distributions underscore why post-stratification is necessary: estimates based solely on the survey would overrepresent certain age ranges and misrepresent the national electorate.
+Figure 1 displays the distribution of CES respondents across age categories. The figure shows that the majority of the CES respondents were in their late-30s to late-60s compared to young adults and seniors, highlighting the vitality of adjusting estimates based on population data. Figures 2 and 3 show how preference for the Conservative and NDP parties differ amongst age categories; Conservatives are most supported by older age groups, whereas the NDP party is most supported by young respondents. These illustrative visualizations encourage the addition of age and province in the regression model and emphasize the demographic gradients that post-stratification seeks to address. Figure 4 presents the age distribution in the Census population. Compared with the survey sample, the population shows a more even spread across most work-aged categories and substantially larger counts in both the youngest and oldest groups. These differences between the sample and population distributions underscore why post-stratification is necessary: estimates based solely on the survey would overrepresent certain age ranges and misrepresent the national electorate.
 
 All analysis, such as data cleaning, numerical summaries, and visualization, was conducted utilizing the R programming language (R version 4.0.2) along with the tidyverse and ggplot2 packages for data manipulation and plotting.
 
