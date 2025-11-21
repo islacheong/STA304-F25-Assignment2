@@ -1,7 +1,7 @@
 ---
 title: "Predicting the 2029 Canadian Federal Election Popular Vote Using Post-Stratification"
 author: "\\small GROUP 51: CAROL XU, ISLA CHEONG, MIA SUNG, VANESSA GABRIELA KWOK"
-date: November 13, 2025
+date: November 20, 2025
 subtitle: STA304 - Assignment 2
 format: pdf
 editor: visual
@@ -247,41 +247,60 @@ ggplot(survey_data, aes(x = age)) +
        x = "Age Group",
        y = "Count") +
   theme_minimal() +
-  theme(axis.text.x=element_text(size=8, angle=30, hjust=1))
+  theme(axis.text.x=element_text(size=8, angle=30, hjust=1) +
+  caption = "Figure 1: Age distributon of CES respondents") +
 
 # Figure 2: Proportion Voting Liberal by Age Group
 ggplot(survey_data, aes(x = age, fill = factor(vote_liberal))) +
-geom_bar(position = "fill") +
-scale_fill_discrete(labels=c('Not voted Liberal', 'Voted Liberal')) +
-labs(y = "Proportion Voting Liberal", x = "Age Group", fill = "Vote Liberal") +
-theme_minimal() +
-theme(axis.text.x=element_text(size=8, angle=30, hjust=1))
+  geom_bar(position = "fill") +
+  scale_fill_discrete(labels = c('Not voted Liberal', 'Voted Liberal')) +
+  labs(y = "Proportion Voting Liberal", x = "Age Group", fill = "Vote Liberal") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(
+    size = 8,
+    angle = 30,
+    hjust = 1
+  ) +
+    caption = "Figure 2: Proportion of respondents who voted for the Liberal party, by age group")
 
 
 # Figure 3: Proportion Voting Conservative by Age Group
 ggplot(survey_data, aes(x = age, fill = factor(vote_conservative))) +
-geom_bar(position = "fill") +
-scale_fill_discrete(labels=c('Not voted Conservative', 'Voted Conservative')) +
-labs(y = "Proportion Voting Conservative", x = "Age Group", fill = "Vote Conservative") +
-theme_minimal() +
-theme(axis.text.x=element_text(size=8, angle=30, hjust=1))
+  geom_bar(position = "fill") +
+  scale_fill_discrete(labels = c('Not voted Conservative', 'Voted Conservative')) +
+  labs(y = "Proportion Voting Conservative", x = "Age Group", fill = "Vote Conservative") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(
+    size = 8,
+    angle = 30,
+    hjust = 1
+  ) +
+    caption = "Figure 3: Proportion of respondents who voted for the Conservative party, by age group")
 
 # Figure 4: Proportion Voting NDP by Age Group
 ggplot(survey_data, aes(x = age, fill = factor(vote_ndp))) +
-geom_bar(position = "fill") +
-scale_fill_discrete(labels=c('Not voted NDP', 'Voted NDP')) +
-labs(y = "Proportion Voting NDP", x = "Age Group", fill = "Vote NDP") +
-theme_minimal() +
-theme(axis.text.x=element_text(size=8, angle=30, hjust=1))
+  geom_bar(position = "fill") +
+  scale_fill_discrete(labels = c('Not voted NDP', 'Voted NDP')) +
+  labs(y = "Proportion Voting NDP", x = "Age Group", fill = "Vote NDP") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(
+    size = 8,
+    angle = 30,
+    hjust = 1
+  ) +
+    caption = "Figure 4: Proportion of respondents who voted for the NDP party, by age group")
 
 # Figure 5: Age Distribution in Census Population
 ggplot(census_data, aes(x = age)) +
   geom_bar(fill = "lightgreen", color = "black") +
-  labs(title = "Age Distribution in Census Population",
-       x = "Age Group",
-       y = "Count") +
+  labs(title = "Age Distribution in Census Population", x = "Age Group", y = "Count") +
   theme_minimal() +
-  theme(axis.text.x = element_text(size=8, angle=30, hjust=1))
+  theme(axis.text.x = element_text(
+    size = 8,
+    angle = 30,
+    hjust = 1
+  ) +
+    caption = "Figure 3: Proportion of respondents who voted for the Conservative party, by age group")
 
 ```
 
@@ -293,7 +312,7 @@ Figures 3 and 4 show how preference for the Conservative and NDP parties differ 
 
 Figure 5 presents the age distribution in the Census population. Compared with the survey sample, the population shows a more even spread across most work-aged categories and substantially larger counts in both the youngest and oldest groups. These differences between the sample and population distributions underscore why post-stratification is necessary: estimates based solely on the survey would overrepresent certain age ranges and misrepresent the national electorate.
 
-All analysis, such as data cleaning, numerical summaries, and visualization, was conducted utilizing the R programming language (version 4.5.1) along with the tidyverse and ggplot2 packages for data manipulation and plotting.
+All analysis, such as data cleaning, numerical summaries, and visualization, was conducted utilizing the R programming language (R version 4.0.2) along with the tidyverse and ggplot2 packages for data manipulation and plotting.
 
 # 3 Methods
 
