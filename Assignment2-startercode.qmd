@@ -264,7 +264,7 @@ ggplot(survey_data, aes(x = age, fill = factor(vote_conservative))) +
   scale_fill_discrete(labels = c('Not voted Conservative', 'Voted Conservative')) +
   labs(title = "Proportion Voting Conservative by Age Group",
        y = "Proportion Voting Conservative", x = "Age Group", fill = "Vote Conservative",
-       caption = "Figure 3: Proportion of respondents who voted for the Conservative party") +
+       caption = "Figure 3: Proportion of respondents who voted Conservative") +
   theme_minimal() +
   theme(axis.text.x = element_text(
     size = 8,
