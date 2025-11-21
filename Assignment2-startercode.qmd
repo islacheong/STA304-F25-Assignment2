@@ -319,7 +319,6 @@ Post-stratification is a statistical technique that adjusts model-based predicti
 
 The post-stratified estimate for the Liberal party is: $$\hat{y}^{PS}=\frac{\sum_iP(Y=1|age_i,prov_i,gender_i,edu_i)\cdot N_i}{\sum_iN_i}$$Post-stratification is appropriate here because the survey is not perfectly representative of the Canadian electorate; without adjustment, predictions would be biased toward the survey’s demographic composition. By integrating census counts, we generate estimates that better approximate real-world voting intentions.
 
-\newpage
 
 # 4 Results
 
@@ -421,7 +420,6 @@ Future extensions of this work could address these limitations by incorporating 
 
 In sum, the combined use of logistic regression and post-stratification provides a practical way to adjust survey-derived voting intentions to better reflect the demographic structure of the Canadian population. While the resulting estimates are not free from limitations, the approach succeeds in highlighting systematic demographic patterns in political support and offers a transparent and reproducible foundation for improving electoral prediction techniques.
 
-\newpage
 
 # 6 Generative AI Statement
 
