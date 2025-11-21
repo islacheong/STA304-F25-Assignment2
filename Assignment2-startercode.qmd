@@ -315,15 +315,10 @@ conservative_model <- glm(vote_conservative ~ age + prov + gender + edu, data = 
 ndp_model <- glm(vote_ndp ~ age + prov + gender + edu, data = survey_data, family = binomial)
 
 # Model Results (to Report in Results section)
-<<<<<<< HEAD
 # summary(model)
-=======
 # summary(liberal_model)
 # summary(conservative_model)
 # summary(ndp_model)
-
-### Don't show the results/output here...
->>>>>>> e8d1f85588f5241703509ac483a0a88e0021d2d4
 
 ```
 
